@@ -71,7 +71,7 @@ ROOT_URLCONF = 'otopura.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'build'),],
+        'DIRS': ['/usr/share/nginx/html'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
