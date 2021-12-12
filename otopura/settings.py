@@ -24,11 +24,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-y6nfc_k=e&13!7*e2)kmyn+!(dvf8r8$*zyf66@e0xc!1xr)y%'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = [
-    "18.177.145.72"
-]
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -71,7 +69,7 @@ ROOT_URLCONF = 'otopura.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['/usr/share/nginx/html'],
+        'DIRS': [os.path.join(BASE_DIR, 'build')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
