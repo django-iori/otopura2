@@ -28,6 +28,10 @@ hooks:
     - location: scripts/before_install
       timeout: 300
       runas: root
+  AfterInstall:
+    - location: scripts/after_install
+      timeout: 300
+      runas: root
   ApplicationStart:
     - location: scripts/application_start
       timeout: 300
