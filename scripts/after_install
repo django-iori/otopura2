@@ -1,7 +1,7 @@
 #!/bin/bash
 
-source venv_otopura/bin/activate
-cd venv_otopura/otopura2
+source /home/ec2-user/venv_otopura/bin/activate
+cd /home/ec2-user/venv_otopura/otopura2
 pkill gunicorn
 export LD_LIBRARY_PATH="/usr/local/lib"
 gunicorn --bind 127.0.0.1:8000 otopura.wsgi -D
