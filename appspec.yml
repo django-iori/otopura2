@@ -7,13 +7,13 @@ files:
 
 permissions:
   - object: /usr/share/nginx/html
-    owner: root
+    owner: ec2-user
     group: root
     mode: 755
     type:
       - directory
   - object: /usr/share/nginx/html
-    owner: root
+    owner: ec2-user
     group: root
     mode: 644
     type:
