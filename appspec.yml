@@ -1,18 +1,35 @@
 version: 0.0
 os: linux
+
 files:
   - source: build/                    # 同期元
     destination: /usr/share/nginx/html # 同期先
+
+permissions:
+  - object: /usr/share/nginx/html
+    owner: root
+    group: root
+    mode: 755
+    type:
+      - directory
+  - object: /usr/share/nginx/html
+    owner: root
+    group: root
+    mode: 644
+    type:
+      - file
+
 hooks:
-  BeforeInstall:
-    - location: scripts/install_dependencies
-      timeout: 300
-      runas: root
-    - location: scripts/start_server
-      timeout: 300
-      runas: root
   ApplicationStop:
-    - location: scripts/stop_server
+    - location: scripts/application_stop
+      timeout: 300
+      runas: root
+  BeforeInstall:
+    - location: scripts/before_install
+      timeout: 300
+      runas: root
+  ApplicationStart:
+    - location: scripts/application_start
       timeout: 300
       runas: root
 
