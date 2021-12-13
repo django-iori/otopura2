@@ -1,7 +1,8 @@
 version: 0.0
 os: linux
 files:
-  - source: /
+  - source: build/                    # 同期元
+    destination: /usr/share/nginx/html # 同期先
 hooks:
   BeforeInstall:
     - location: scripts/install_dependencies
