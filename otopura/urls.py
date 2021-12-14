@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.db import router
 from django.urls import path, include, re_path
-from . import settings
+from .settings import production
 from django.conf.urls.static import static
 from otopuraapp import apis
 from rest_auth.registration.views import VerifyEmailView
@@ -43,4 +43,4 @@ urlpatterns = [
     path('good_list/', TemplateView.as_view(template_name='index.html')),
     path('', TemplateView.as_view(template_name='index.html')),
     #re_path('.*', TemplateView.as_view(template_name='index.html'))
-] + static (settings.MEDIA_URL, document_root=settings.MEDIA＿ROOT)
+] + static (production.MEDIA_URL, document_root=production.MEDIA＿ROOT)
