@@ -24,4 +24,5 @@ urlpatterns = [
     path('comment_list/', Comment_ListView.as_view()),
     path('account/', AccountView.as_view()),
     path('hello/', HelloWorld),
+    path('edit/', edit_profile)
 ]

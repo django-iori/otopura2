@@ -28,6 +28,7 @@ class MypageViewSet(viewsets.ViewSet):
 
 
 
+
     """@action(methods=['get'], detail=False)
     def msg_list(self, request):
         return print(self.get_queryset())"""

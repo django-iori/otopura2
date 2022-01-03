@@ -142,9 +142,7 @@ class UploadListView(APIView):
         print(request.user)
         queryset = BandModel.objects.filter(user=request.user)
         serializer = UploadListSerializer(queryset, many=True)
-        return Response(
-            
-        )
+        return Response(serializer.data)
 
 def authview(request):
     print(request.user)
@@ -273,3 +271,20 @@ class AccountView(APIView):
         queryset = UserInfo.objects.filter(user=user)
         serializer = UserSerializer(queryset, many=True)
         return Response(serializer.data)
+
+@api_view(['POST'])
+def edit_profile(request):
+    try:
+        print(request.data['part'])
+        user = UserInfo.objects.get(pk=request.data['pk'])
+        user.name = request.user.username
+        user.age = request.data['age']
+        user.genre = request.data['genre']
+        user.address = request.data['address']
+        user.artist = request.data['artist']
+        user.part = request.data['part']
+        user.image = request.data['image']
+        user.save()
+        return Response("Edit!")
+    except:
+        return Response("fail...")
