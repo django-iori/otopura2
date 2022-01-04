@@ -41,14 +41,19 @@ def signupview(request):
         username_data=request.data["username"]
         print(username_data)
         password_data=request.data["password"]
-        try:
-            User.objects.create_user(username_data,'',password_data)
-            user=authenticate(request,username=username_data,password=password_data)
-            login(request,user)
-            return Response("success")
-            
-        except IntegrityError:
-            return Response("Something went wrong")
+        user=authenticate(request,username=username_data,password=password_data)
+        if user is not None:
+            return Response("userがすでに存在します")
+        else:
+            try:
+                User.objects.create_user(username_data,'',password_data)
+                user=authenticate(request,username=username_data,password=password_data)
+                login(request,user)
+                return Response("success")
+                
+            except:
+                return Response("Something went wrong..")
+
 
 @api_view(['POST'])
 def loginview(request):
@@ -148,9 +153,9 @@ def authview(request):
     print(request.user)
     isAuthenticated = request.user.is_authenticated
     if isAuthenticated:
-        return HttpResponse('authenticated!!')
+        return HttpResponse('success')
     else:
-        return HttpResponse('not authenticated...')
+        return HttpResponse('failed')
 
 class CheckAuthenticatedView(APIView):
     def post(self, request, format=None):
