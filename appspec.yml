@@ -2,9 +2,10 @@ version: 0.0
 os: linux
 
 files:
-  - source: otopuraapp/build/                    # 同期元
+  - source: otopuraapp/build/          # 同期元
     destination: /usr/share/nginx/html # 同期先
-
+  - source: otopuraapp/media/          # 同期元
+    destination: /usr/share/nginx/html/media # 同期先
 permissions:
   - object: /usr/share/nginx/html
     owner: ec2-user
