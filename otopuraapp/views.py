@@ -149,12 +149,15 @@ class UploadListView(APIView):
         serializer = UploadListSerializer(queryset, many=True)
         return Response(serializer.data)
 
+@api_view(['POST'])
 def authview(request):
-    print(request.user)
-    isAuthenticated = request.user.is_authenticated
-    if isAuthenticated:
-        return HttpResponse('success')
-    else:
+    try:
+        isAuthenticated = request.user.is_authenticated
+        if isAuthenticated:
+            return HttpResponse('success')
+        else:
+            return HttpResponse('failed')
+    except:
         return HttpResponse('failed')
 
 class CheckAuthenticatedView(APIView):
@@ -164,11 +167,11 @@ class CheckAuthenticatedView(APIView):
         try:
             isAuthenticated = user.is_authenticated
             if isAuthenticated:
-                return Response({ 'isAuthenticated': request.username })
+                return Response('success')
             else:
-                return Response({ 'isAuthenticated': 'error' })
+                return Response('failed')
         except:
-            return Response({ 'isAuthenticated': 'error' })
+            return Response('failed')
 
 class ExampleView(APIView):
     authentication_classes = [SessionAuthentication, BasicAuthentication]

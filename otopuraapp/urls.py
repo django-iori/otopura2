@@ -13,7 +13,7 @@ urlpatterns = [
     #path('csrf_cookie/', set_csrf_token),
     path('csrf_cookie/', CsrfView),
     path('logout/', LogoutView.as_view()),
-    path('auth/', authview),
+    path('authenticated/', authview),
     #path('authenticated/', CheckAuthenticatedView.as_view()),
     #path('authenticated/', ExampleView.as_view()),
     path('upload/', uploadview),

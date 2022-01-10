@@ -2,4 +2,3 @@
 
 rm -fr /usr/share/nginx/html/index.html
 rm -fr /usr/share/nginx/html/static
-rm -fr /usr/share/nginx/html/media
