@@ -33,6 +33,7 @@ from django.middleware.csrf import get_token
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework.permissions import IsAuthenticated
 from django.http import JsonResponse
+import django_filters
 
 @api_view(['POST'])
 def signupview(request):
@@ -200,12 +201,24 @@ def uploadview(request):
         band.age = request.data['age']
         print(request.data['part'])
         band.genre = request.data['genre']
-        part = ""
+        data = {
+            'guitar': False,
+            'base': False,
+            'drum': False,
+            'vocal': False,
+            'keyboard': False
+            }
         for key, value in json.loads(request.data['part']).items():
             if value:
-                part = part + key + " "
-        print(part)
-        band.part = part
+                data[key]=value
+        try:
+            band.guitar = data['guitar']
+            band.base = data['base']
+            band.drum = data['drum']
+            band.vocal = data['vocal']
+            band.keyboard = data['keyboard']
+        except:
+            print('ok')
         band.image = request.data['image']
         band.save()
         return Response("success")
@@ -242,8 +255,9 @@ def goodview(request):
 
     model = UserInfo.objects.get(user=request.user)
     good = GoodModel()
-    #いいねされた人
+    #いいねされた人,投稿
     good.user = user
+    good.good_band = band
     #いいねした人
     good.good_user = request.user
     good.name = request.user.username
@@ -259,8 +273,12 @@ def goodview(request):
 @api_view(['POST'])
 def commentview(request):
     user = User.objects.get(pk=request.data['user'])
+    band = BandModel.objects.get(user=user)
     cm = CommentModel()
     cm.cm_user = request.user
+    cm.cm_band = band
+    print(request.user.username)
+    cm.cm_name = request.user.username
     cm.user = user
     cm.comment = request.data['comment']
     cm.save()
@@ -296,3 +314,32 @@ def edit_profile(request):
         return Response("Edit!")
     except:
         return Response("fail...")
+
+class FilterBand(django_filters.FilterSet):
+    guitar = django_filters.BooleanFilter(field_name='guitar')
+    base = django_filters.BooleanFilter(field_name='base')
+    drum = django_filters.BooleanFilter(field_name='drum')
+    vocal = django_filters.BooleanFilter(field_name='vocal')
+    keyboard = django_filters.BooleanFilter(field_name='keyboard')
+    class Meta:
+        model=BandModel
+        fields = []
+
+class BandView(APIView):
+    def get(self, request):
+        filterset = FilterBand(request.query_params, queryset=BandModel.objects.all())
+        serializer = BandSerializer(instance=filterset.qs, many=True)
+        return Response(serializer.data)
+
+@api_view(['GET'])
+def signoutview(request):
+    print(request.user.pk)
+    user = User.objects.get(pk=request.user.pk)
+    user.delete()
+    return Response("deleted!")
+
+@api_view(['POST'])
+def delete_upload(request):
+    model = BandModel.objects.get(pk=request.data['id'])
+    model.delete()
+    return Response('deleted!')

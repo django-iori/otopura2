@@ -7,6 +7,20 @@ from django.contrib.auth import authenticate, login
 from django.db import IntegrityError
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
+import django_filters
+from rest_framework.views import APIView
+
+class FilterHost(django_filters.FilterSet):
+    class Meta:
+        model=HostModel
+        fields = '__all__'
+
+class HostView(APIView):
+    def get(self, request):
+        filterset = FilterHost(request.query_params, queryset=HostModel.objects.all())
+        serializer = HostSerializer(instance=filterset.qs, many=True)
+        return Response(serializer.data)
+
 
 class HostViewSet(viewsets.ModelViewSet):
     queryset = HostModel.objects.all()

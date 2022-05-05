@@ -1,3 +1,4 @@
+from email.mime import base
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
@@ -36,13 +37,19 @@ class BandModel(models.Model):
     name = models.CharField(max_length=20, blank=True)
     age = models.CharField(max_length=20, blank=True)
     genre = models.CharField(max_length=20, blank=True)
-    part = models.CharField(max_length=20, blank=True)
+    guitar = models.BooleanField(default=False)
+    base = models.BooleanField(default=False)
+    drum = models.BooleanField(default=False)
+    vocal = models.BooleanField(default=False)
+    keyboard = models.BooleanField(default=False)
     image = models.ImageField(upload_to="")
     good = models.IntegerField(null=True, blank=True, default=0)
 
 class GoodModel(models.Model):
     #いいねされた人
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user")
+    #いいねされた投稿
+    good_band = models.ForeignKey(BandModel, on_delete=models.CASCADE, related_name="good_band", blank=True, null=True)
     #いいねした人
     good_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="good_user")
     name = models.CharField(max_length=20, blank=True)
@@ -56,6 +63,9 @@ class GoodModel(models.Model):
 class CommentModel(models.Model):
     #コメントした人
     cm_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="cm_user")
+    cm_name = models.CharField(max_length=20, blank=True)
+    #コメントされた投稿
+    cm_band = models.ForeignKey(BandModel, on_delete=models.CASCADE, related_name="cm_band", blank=True, null=True)
     #コメントされた人
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="cm_user_1")
     #コメント内容

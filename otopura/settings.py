@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'rest_auth.registration',
     'allauth.socialaccount',
+    'django_filters',
 ]
 
 
@@ -171,6 +172,7 @@ LOGIN_URL = '/login/'
 
 # 許可するオリジン
 CORS_ORIGIN_WHITELIST = []
+
 # レスポンスを公開する
 CORS_ALLOW_CREDENTIALS = True
 
